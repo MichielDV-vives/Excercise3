@@ -27,8 +27,4 @@
       <_ContentIncludedByDefault Remove="Views\Cart\ProcessOrder.cshtml" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\Admin\" />
-    </ItemGroup>
-
 </Project>
