@@ -48,10 +48,10 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult RemoveFromCart(int id)
     {
-        var product = _shoppingCart.Products.FirstOrDefault(p => p.Id == id);
-        if (product != null)
+        var item = _shoppingCart.Products.FirstOrDefault(p => p.Id == id);
+        if (item != null)
         {
-            _shoppingCart.Products.Remove(product);
+            _shoppingCart.Products.Remove(item);
         }
         return RedirectToAction("Index");
     }

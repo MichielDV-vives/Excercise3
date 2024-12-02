@@ -1,26 +1,39 @@
 @model Excercise3.Models.ShoppingCart
 
-<div class="cart">
-    <h2>Your Shopping Cart</h2>
-    <ul>
-        @if (Model.Products.Any())
-        {
-            foreach (var product in Model.Products)
-            {
-                <li>
-                    <strong>@product.Name</strong> - €@product.Price
-                    <form method="post" asp-action="RemoveFromCart">
-                        <input type="hidden" name="id" value="@product.Id" />
-                        <button type="submit" class="btn">Remove</button>
-                    </form>
-                </li>
-            }
-            <p><strong>Total Price:</strong> €@Model.TotalPrice</p>
-            <a asp-action="Checkout" class="btn">Checkout</a>
-        }
-        else
-        {
-            <p>Your cart is empty.</p>
-        }
-    </ul>
-</div>
+<h2>Shopping Cart</h2>
+<ul>
+    @foreach (var product in Model.Products)
+    {
+        <li>
+            @product.Name - €@product.Price
+            <form class="remove-item-form" method="post" asp-action="RemoveFromCart">
+                <input type="hidden" name="id" value="@product.Id" />
+                <button type="submit" class="btn">Remove</button>
+            </form>
+        </li>
+    }
+</ul>
+<p>Total Price: €@Model.TotalPrice</p>
+<h3>Select Payment Method</h3>
+<button>Pay with Credit Card</button>
+<button>Pay with PayPal</button>
+<button>Pay</button>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.remove-item-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('checkoutContent').innerHTML = html;
+                });
+            });
+        });
+    </script>
+}
